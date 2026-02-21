@@ -1,0 +1,12 @@
+3 pointers
+
+Low, Mid , High
+
+[0---low-1] will be zeroes [extreme left]
+
+[low--mid-1] will be ones 
+
+[mid---high]
+ -> random numbers
+ 
+[high+1--n-1] --> 2

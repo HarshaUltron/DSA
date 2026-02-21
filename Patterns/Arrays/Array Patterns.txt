@@ -1,0 +1,205 @@
+| Day   | Pattern                   | Goal                      |
+| ----- | ------------------------- | ------------------------- |
+| 1–3   | Two Pointers              | 3–4 problems/day          |
+| 4–6   | Sliding Window            | 3 problems/day            |
+| 7–9   | Prefix Sum                | 3 problems/day            |
+| 10–11 | Binary Search             | 3 problems/day            |
+| 12–13 | Sorting + Greedy          | 3 problems/day            |
+| 14    | HashMap                   | 3 problems/day            |
+| 15    | Review + Matrix / Summary | 2 problems + revise notes |
+
+🧩 1. Two Pointers Pattern
+
+Why: This is the most reused pattern in MAANG — used in arrays, strings, and linked lists.
+When: Sorted array, find pair/triplet, remove duplicates, etc.
+
+Concepts:
+
+Move left/right pointers smartly to avoid O(n²)
+
+Shrinking and expanding windows
+
+Common Problems:
+
+Pair Sum (sorted)
+
+Remove Duplicates from Sorted Array
+
+Container With Most Water
+
+3Sum / 4Sum / 3Sum Closest
+
+Trapping Rain Water
+
+Target: 10–12 questions
+
+🔁 2. Sliding Window Pattern
+
+Why: Used for “subarray” problems — max/min/average/count of something in a subarray.
+When: Continuous subarray, fixed or variable size.
+
+Concepts:
+
+Maintain running window sum/frequency/count
+
+Use two pointers to move window boundaries
+
+Common Problems:
+
+Maximum Sum Subarray of Size K
+
+Longest Substring Without Repeating Characters
+
+Minimum Window Substring
+
+Fruit Into Baskets
+
+Longest Subarray with Sum ≤ K
+
+Target: 8–10 questions
+
+📈 3. Prefix Sum / Difference Array Pattern
+
+Why: Speeds up subarray sum queries from O(n²) → O(n).
+When: You need quick sum or difference queries, range updates.
+
+Concepts:
+
+Cumulative sums
+
+Using hashmap with prefixSum (for subarray sum equals K type)
+
+Common Problems:
+
+Subarray Sum Equals K
+
+Continuous Subarray Sum (divisible by k)
+
+Maximum Subarray Sum (Kadane’s Algorithm)
+
+Range Sum Queries
+
+Target: 8–10 questions
+
+🔍 4. Binary Search on Arrays
+
+Why: MAANG loves binary search beyond “search element.” It’s used to optimize answers or find thresholds.
+When: Sorted array, monotonic property, "find minimum/maximum satisfying condition."
+
+Concepts:
+
+Lower bound / Upper bound
+
+Binary Search on answer space
+
+Common Problems:
+
+Search in Rotated Sorted Array
+
+Find Minimum in Rotated Sorted Array
+
+Peak Element / Mountain Array
+
+Koko Eating Bananas (binary search on answer)
+
+Aggressive Cows / Allocate Books (advanced pattern)
+
+Target: 8–10 questions
+
+⚙️ 5. Sorting + Greedy Combo
+
+Why: A ton of array problems are solved by sorting + greedy logic.
+When: You need minimal/maximal results (intervals, activities, etc.)
+
+Concepts:
+
+Sort by start/end, apply greedy picks
+
+Common Problems:
+
+Merge Intervals
+
+Non-overlapping Intervals
+
+Meeting Rooms / Minimum Platforms
+
+Minimum Arrows to Burst Balloons
+
+Target: 6–8 questions
+
+💥 6. HashMap / Frequency / Counting Pattern
+
+Why: Most optimal subarray and “find missing/duplicate” questions use this.
+When: Counting, frequency, or lookup in O(1)
+
+Concepts:
+
+Counting occurrences
+
+Detecting duplicates
+
+Using hashmap with prefix/diff arrays
+
+Common Problems:
+
+Two Sum
+
+Subarray Sum = K
+
+Longest Consecutive Sequence
+
+Majority Element
+
+Top K Frequent Elements
+
+Target: 8–10 questions
+
+🔁 7. Cyclic Sort / In-Place Manipulation
+
+Why: MAANG often asks “find missing/duplicate number” questions that rely on in-place rearrangement.
+
+Common Problems:
+
+Missing Number
+
+Find All Duplicates in Array
+
+First Missing Positive
+
+Target: 4–5 questions
+
+🧠 8. Matrix & Submatrix (Optional for Arrays block)
+
+Why: Small pattern, but useful before moving to graphs.
+
+Common Problems:
+
+Rotate Matrix
+
+Spiral Matrix
+
+Set Matrix Zeroes
+
+Target: 3–5 questions
+
+
+Squares of a Sorted Array
+
+Valid Palindrome
+
+Longest Substring Without Repeating Characters
+
+Minimum Size Subarray Sum
+
+Two Sum II (Sorted)
+
+
+Longest Substring Without Repeating Characters
+
+Minimum Size Subarray Sum
+
+Longest Subarray with At Most K Distinct
+
+Partition Array According to Given Pivot
+
+Rearrange Array Elements by Sign

@@ -1,0 +1,222 @@
+Perfect DSA question 🚀 — **array rotation by k places** is a very popular interview problem.
+Let’s go step by step:
+
+We’ll assume **right rotation** (but same logic works for left).
+Example:
+
+```
+arr = [1, 2, 3, 4, 5, 6, 7], k = 3
+Output → [5, 6, 7, 1, 2, 3, 4]
+4 5 6 7 1 2 3
+for i in range(n):
+  last=a[n-1]
+  for j in range(n-2,0,-1):
+    
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+---
+
+# 🔹 1. Brute Force (Repeated Rotation)
+
+Rotate by 1 step, repeat k times.
+
+```python
+def rotate_bruteforce(arr, k):
+    n = len(arr)
+    for _ in range(k):            # O(k)
+        last = arr[-1]            # take last
+        for i in range(n-1, 0, -1):  # shift O(n)
+            arr[i] = arr[i-1]
+        arr[0] = last
+    return arr
+```
+
+✅ Correct but very slow.
+
+* **Time Complexity:** O(n × k)
+* **Space Complexity:** O(1)
+
+👉 Works only for small `k`.
+
+---
+
+# 🔹 2. Better Approach (Using Extra Array)
+
+Place elements directly in their new rotated positions.
+
+```python
+def rotate_better(arr, k):
+    n = len(arr)
+    k = k % n   # handle k > n
+    result = [0] * n
+    for i in range(n):            # O(n)
+        result[(i + k) % n] = arr[i]
+    return result
+```
+
+✅ Much faster.
+
+* **Time Complexity:** O(n)
+* **Space Complexity:** O(n) (extra array)
+
+👉 Order preserved, direct computation.
+
+---
+
+# 🔹 3. Optimal Approach (Reverse Method, In-Place)
+
+Trick: Rotate in 3 steps with **reversals**.
+
+Steps for right rotation by k:
+
+1. Reverse the entire array.
+2. Reverse first k elements.
+3. Reverse remaining n-k elements.
+
+```python
+def reverse(arr, l, r):
+    while l < r:
+        arr[l], arr[r] = arr[r], arr[l]
+        l, r = l+1, r-1
+
+def rotate_optimal(arr, k):
+    n = len(arr)
+    k = k % n
+    reverse(arr, 0, n-1)       # Step 1
+    reverse(arr, 0, k-1)       # Step 2
+    reverse(arr, k, n-1)       # Step 3
+    return arr
+```
+
+Example:
+
+```
+[1,2,3,4,5,6,7], k=3
+Step1: [7,6,5,4,3,2,1]
+Step2: [5,6,7,4,3,2,1]
+Step3: [5,6,7,1,2,3,4]
+```
+
+* **Time Complexity:** O(n)
+* **Space Complexity:** O(1)
+
+👉 This is the **most optimal solution**.
+
+---
+
+# 🔹 Summary
+
+| Approach           | Time   | Space | Notes                |
+| ------------------ | ------ | ----- | -------------------- |
+| Brute force        | O(n×k) | O(1)  | Repeated shift       |
+| Better (extra arr) | O(n)   | O(n)  | Uses auxiliary array |
+| Optimal (reverse)  | O(n)   | O(1)  | Best in practice     |
+
+---
+
+⚡ In interviews:
+
+* Always **start with brute force**, then improve.
+* Mention extra-space method, then the **in-place reverse trick** (optimal).
+
+---
+
+Do you want me to also cover **left rotation** with the same 3-step reverse trick so you can answer confidently if the interviewer twists the question?
+
+Good that you’re digging into the **“why”**, not just the **“how”** 👍. Let’s slow it down and reason carefully.
+
+---
+
+### 1. What’s the goal?
+
+You want to **rotate right by k**.
+That means:
+
+* Take the last `k` elements
+* Bring them to the front
+* Push the first `n-k` elements to the back.
+
+Example:
+`[1, 2, 3, 4, 5, 6, 7]`, rotate by 3 → `[5, 6, 7, 1, 2, 3, 4]`.
+
+---
+
+### 2. Trick behind reversal
+
+The reversal trick works because:
+
+👉 If you reverse the *whole array*, the order of the two parts (`X` and `Y`) **automatically swaps places**.
+
+* Original: `X Y`
+* After full reverse: `reverse(Y) reverse(X)`
+  (the order of blocks flips!)
+
+So just by reversing the whole array, you’ve already **moved the last k block to the front**.
+But the problem: both blocks are backwards.
+
+---
+
+### 3. Fixing the order
+
+Now, just reverse each block individually:
+
+* `reverse(reverse(Y)) = Y`
+* `reverse(reverse(X)) = X`
+
+So the final result is `Y X`, which is exactly the rotated array.
+
+---
+
+### 4. Visual intuition
+
+Take `[1,2,3,4,5,6,7]`, rotate by 3.
+
+* Split: `X = [1,2,3,4]`, `Y = [5,6,7]`.
+  Goal = `Y X = [5,6,7,1,2,3,4]`.
+
+Now apply the 3 reversals:
+
+1. Reverse all: `[7,6,5,4,3,2,1]`
+   (see? `Y` came in front, but both Y and X are flipped)
+
+2. Reverse first 3: `[5,6,7,4,3,2,1]`
+   (fixed Y)
+
+3. Reverse last 4: `[5,6,7,1,2,3,4]`
+   (fixed X) → Done ✅
+
+---
+
+### 5. Why not just shift?
+
+Naive shifting moves one element at a time, costing `O(n*k)`.
+The reversal method does the swap in **3 sweeps**, `O(n)` total, with no extra space.
+That’s why we do it.
+
+---
+
+👉 The **essence** is:
+
+* Full reverse = puts the right part in front, left part in back (but both reversed).
+* Two more reversals = correct the direction of each part.
+
+
+Edge notes
+
+If you want left rotation by k, you can either:
+
+change the order: reverse(0, k-1), reverse(k, n-1), reverse(0, n-1), or
+
+call your function with k = n - k.

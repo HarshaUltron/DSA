@@ -1,0 +1,191 @@
+Perfect 🔥 — diving into **Sliding Window** is the next logical step after **Two Pointers** — they’re cousins in algorithm design.
+
+Let’s build this step-by-step, just like we did for Two Pointers 👇
+
+---
+
+## 🧠 What is Sliding Window?
+
+👉 A **sliding window** is a technique for solving problems on **contiguous subarrays or substrings**.
+Instead of recomputing things for every new subarray, you **slide a window** across the input, adding and removing elements efficiently.
+
+---
+
+## 🎯 When to Use Sliding Window
+
+Use it when the problem says:
+
+* “Find subarray/substring …”
+* “Of length k” or “with sum …”
+* “With at most / at least / exactly K distinct elements”
+* “Maximum / Minimum … over a range”
+
+---
+
+## ⚙️ Two types of Sliding Windows
+
+| Type              | Window Size                                 | Example Problems                               |
+| ----------------- | ------------------------------------------- | ---------------------------------------------- |
+| **Fixed-size**    | Window size = constant `k`                  | Max sum of subarray of size k                  |
+| **Variable-size** | Window expands/contracts based on condition | Longest substring without repeating characters |
+
+---
+
+## 🧩 Pattern 1: Fixed-size Sliding Window
+
+### 🧠 Concept
+
+* Window of **size k** slides one step at a time.
+* Add next element, remove first element from previous window.
+* Maintain sum, max, or frequency efficiently.
+
+### ✅ Template
+
+```python
+def sliding_window_fixed(nums, k):
+    left = 0
+    window_sum = 0
+    max_sum = float('-inf')
+
+    for right in range(len(nums)):
+        window_sum += nums[right]
+
+        # shrink if window size > k
+        if right - left + 1 > k:
+            window_sum -= nums[left]
+            left += 1
+
+        # process window of size k
+        if right - left + 1 == k:
+            max_sum = max(max_sum, window_sum)
+
+    return max_sum
+```
+
+### 💡 Common problems
+
+* [ ] Maximum/Minimum sum subarray of size k
+* [ ] First negative number in every window of size k
+* [ ] Number of anagrams of a pattern in a string
+
+---
+
+## 🧩 Pattern 2: Variable-size Sliding Window
+
+### 🧠 Concept
+
+* Window expands (increase `right`)
+* Shrinks (increase `left`) until condition satisfied
+* Keep track of the **best (max/min) length/value** when condition holds.
+
+### ✅ Template
+
+```python
+def sliding_window_variable(s):
+    left = 0
+    best = 0
+    window = {}
+
+    for right in range(len(s)):
+        # include current element
+        window[s[right]] = window.get(s[right], 0) + 1
+
+        # shrink until condition satisfied
+        while <invalid_condition>:
+            window[s[left]] -= 1
+            if window[s[left]] == 0:
+                del window[s[left]]
+            left += 1
+
+        # update result when condition valid
+        best = max(best, right - left + 1)
+
+    return best
+```
+
+### 💡 Common problems
+
+* [ ] Longest substring without repeating characters
+* [ ] Longest substring with at most K distinct characters
+* [ ] Minimum window substring
+* [ ] Smallest subarray with sum ≥ target
+
+---
+
+## 🧠 Pattern 3: Variable-size with Sum condition
+
+When condition involves **sum** rather than counts.
+
+### ✅ Template
+
+```python
+def min_subarray_len(target, nums):
+    left = 0
+    window_sum = 0
+    min_len = float('inf')
+
+    for right in range(len(nums)):
+        window_sum += nums[right]
+
+        while window_sum >= target:
+            min_len = min(min_len, right - left + 1)
+            window_sum -= nums[left]
+            left += 1
+
+    return 0 if min_len == float('inf') else min_len
+```
+
+### 💡 Common problems
+
+* [ ] Minimum size subarray sum ≥ target
+* [ ] Count subarrays with sum = k (variation with prefix sum)
+
+---
+
+## 🧩 Pattern 4: Frequency-map Sliding Window (Strings)
+
+### ✅ Template
+
+```python
+from collections import Counter
+
+def findAnagrams(s, p):
+    k = len(p)
+    p_count = Counter(p)
+    s_count = Counter()
+
+    result = []
+    for i in range(len(s)):
+        s_count[s[i]] += 1
+        if i >= k:
+            s_count[s[i - k]] -= 1
+            if s_count[s[i - k]] == 0:
+                del s_count[s[i - k]]
+
+        if s_count == p_count:
+            result.append(i - k + 1)
+
+    return result
+```
+
+### 💡 Common problems
+
+* [ ] Find all anagrams in a string
+* [ ] Permutation in string
+* [ ] Minimum window substring
+
+---
+
+## 🧭 Summary Table
+
+| Type               | Key Idea                           | Common Use                          |
+| ------------------ | ---------------------------------- | ----------------------------------- |
+| Fixed-size         | Always size `k`                    | Moving averages, subarray sum       |
+| Variable-size      | Expand/shrink till condition met   | Longest/shortest substring/subarray |
+| With sum condition | Maintain sum and shrink till valid | Min subarray with target sum        |
+| With map/frequency | Maintain character counts          | Substring/anagram problems          |
+
+---
+
+Would you like me to continue with a **“Sliding Window Patterns – LeetCode problem ladder”** (step-by-step progression with examples from easy → hard and what pattern to use for each)?
+It’s a great way to master it systematically like you did with Two Pointers.

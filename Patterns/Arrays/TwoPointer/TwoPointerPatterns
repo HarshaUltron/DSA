@@ -1,0 +1,142 @@
+
+
+## 🧩 The Core Two-Pointer Skeleton
+
+At its heart, every “rearrange / filter / remove” array problem looks like this:
+
+```python
+slow = 0
+for fast in range(len(nums)):
+    if condition(nums[fast]):         # "keep" or "move" element
+        nums[slow] = nums[fast]       # or swap(nums[slow], nums[fast])
+        slow += 1
+```
+
+* **`fast`**: scans all elements
+* **`slow`**: marks where the next valid element should go
+* **Condition**: defines what you want to “keep” (or bring forward)
+
+---
+
+## 🧠 PATTERN 1 — Move Zeroes
+
+**Goal:** Move all non-zeros forward, push zeros to end.
+**Condition:** `nums[fast] != 0`
+
+```python
+slow = 0
+for fast in range(len(nums)):
+    if nums[fast] != 0:
+        nums[slow], nums[fast] = nums[fast], nums[slow]
+        slow += 1
+```
+
+✅ Moves all non-zeros to front
+✅ Keeps order
+✅ O(n), O(1)
+
+---
+
+## 🧠 PATTERN 2 — Remove Duplicates from Sorted Array
+
+**Goal:** Keep only one copy of each unique number.
+**Condition:** `nums[fast] != nums[slow - 1]`
+
+```python
+slow = 1
+for fast in range(1, len(nums)):
+    if nums[fast] != nums[slow - 1]:
+        nums[slow] = nums[fast]
+        slow += 1
+return slow
+```
+
+✅ Keeps only unique elements
+✅ Works because array is sorted
+✅ O(n), O(1)
+
+---
+
+## 🧠 PATTERN 3 — Partition Array / Segregate Evens and Odds
+
+**Goal:** Move even numbers to front, odd numbers to end (or vice versa).
+**Condition:** `nums[fast] % 2 == 0` (for evens-first)
+
+```python
+slow = 0
+for fast in range(len(nums)):
+    if nums[fast] % 2 == 0:
+        nums[slow], nums[fast] = nums[fast], nums[slow]
+        slow += 1
+```
+
+✅ Evens before odds
+✅ Relative order of evens preserved
+✅ O(n), O(1)
+
+---
+
+## 🧠 PATTERN 4 — Sort Colors (Dutch National Flag Problem)
+
+**Goal:** Sort 0s, 1s, and 2s without using extra space.
+**Condition:** Now we need **three zones**.
+
+```python
+low, mid, high = 0, 0, len(nums) - 1
+
+while mid <= high:
+    if nums[mid] == 0:
+        nums[low], nums[mid] = nums[mid], nums[low]
+        low += 1
+        mid += 1
+    elif nums[mid] == 1:
+        mid += 1
+    else:  # nums[mid] == 2
+        nums[mid], nums[high] = nums[high], nums[mid]
+        high -= 1
+```
+
+✅ 0s → left, 1s → middle, 2s → right
+✅ Classic three-pointer variation
+✅ O(n), O(1)
+
+---
+
+## 🧠 PATTERN 5 — Remove Element (LeetCode #27)
+
+**Goal:** Remove all occurrences of a given `val` in-place.
+**Condition:** `nums[fast] != val`
+
+```python
+slow = 0
+for fast in range(len(nums)):
+    if nums[fast] != val:
+        nums[slow] = nums[fast]
+        slow += 1
+return slow
+```
+
+✅ Filter out a specific value
+✅ O(n), O(1)
+
+---
+
+## 🧭 Summary Table
+
+| Problem              | Condition         | Action            | Complexity  |
+| -------------------- | ----------------- | ----------------- | ----------- |
+| Move Zeroes          | `!= 0`            | Swap              | O(n) / O(1) |
+| Remove Duplicates    | `!= nums[slow-1]` | Assign            | O(n) / O(1) |
+| Remove Element       | `!= val`          | Assign            | O(n) / O(1) |
+| Segregate Evens/Odds | `% 2 == 0`        | Swap              | O(n) / O(1) |
+| Sort Colors          | `0/1/2`           | Swap (3 pointers) | O(n) / O(1) |
+
+---
+
+## 💡 Mental Model
+
+Think of `slow` as a **“clean zone marker”**
+and `fast` as a **“scanner”** bringing valid elements into that zone.
+
+Once you get this, 90% of array rearrangement problems collapse into one pattern.
+
