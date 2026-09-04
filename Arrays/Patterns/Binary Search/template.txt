@@ -1,0 +1,684 @@
+I think Binary Search is the **last major Array pattern** you should master.
+
+After this, your Arrays foundation will be very strong.
+
+---
+Your 5-day Binary Search plan
+Day	Focus	Problems
+Day 1	BS fundamentals	Search X, Lower Bound, Upper Bound, Search Insert, Floor/Ceil
+Day 2	Occurrences + rotated arrays	First/Last Occurrence, Count Occurrences, Rotated I, Rotated II
+Day 3	Rotated/BS patterns	Find Minimum, Rotation Count, Single Element, Peak Element
+Day 4	BS on Answer	Koko, Bouquets, Smallest Divisor, Ship Packages, Kth Missing Positive
+Day 5	Advanced + revision	Split Array, Gas Station, Kth Element + mixed revision
+
+# Step 1: Binary Search Intuition
+
+Imagine a dictionary.
+
+Can you search a word by checking every page?
+
+Yes.
+
+Time:
+
+```text
+O(n)
+```
+
+Instead, you open the middle.
+
+If your word is:
+
+```text
+APPLE
+```
+
+and middle word is:
+
+```text
+MANGO
+```
+
+You know:
+
+```text
+APPLE < MANGO
+```
+
+So throw away the entire right half.
+
+Repeat.
+
+This is Binary Search.
+
+Every iteration removes **half** the search space.
+
+Time:
+
+```text
+O(log n)
+```
+
+---
+
+# Binary Search works only when
+
+The search space is **sorted** or **monotonic**.
+
+Example:
+
+```python
+[1,3,5,8,10,12]
+```
+
+Not:
+
+```python
+[8,2,10,4]
+```
+
+---
+
+# Template 1 (Most Important)
+
+```python
+left = 0
+right = len(nums)-1
+
+while left <= right:
+
+    mid = left + (right-left)//2
+
+    if nums[mid] == target:
+        return mid
+
+    elif nums[mid] < target:
+        left = mid + 1
+
+    else:
+        right = mid - 1
+
+return -1
+```
+
+Memorize this.
+
+---
+
+# Why
+
+```python
+mid = left + (right-left)//2
+```
+
+instead of
+
+```python
+(left+right)//2
+```
+
+Because in Java/C++:
+
+```text
+left+right
+```
+
+can overflow.
+
+Python doesn't overflow here, but interviewers still prefer the safer form.
+
+---
+
+# Binary Search Recognition
+
+Whenever you hear:
+
+```text
+Sorted
+```
+
+Think:
+
+```text
+Binary Search
+```
+
+---
+
+Whenever you hear:
+
+```text
+First occurrence
+Last occurrence
+Lower Bound
+Upper Bound
+```
+
+Think:
+
+```text
+Binary Search
+```
+
+---
+
+Whenever you hear:
+
+```text
+Minimum possible
+Maximum possible
+Smallest value satisfying condition
+```
+
+Think:
+
+```text
+Binary Search on Answer
+```
+
+---
+
+# Binary Search Patterns
+
+There are only **5**.
+
+---
+
+## Pattern 1
+
+Classic Binary Search
+
+Template above.
+
+Problems
+
+✅ LC 704
+
+---
+
+## Pattern 2
+
+Lower Bound / Upper Bound
+
+Idea
+
+Find
+
+```text
+First >= target
+```
+
+or
+
+```text
+First > target
+```
+
+Problems
+
+✅ LC 35 Search Insert Position
+
+✅ LC 34 First and Last Position
+
+---
+
+## Pattern 3
+
+Search in Rotated Array
+
+Problems
+
+✅ LC 33
+
+✅ LC 81
+
+---
+
+## Pattern 4
+
+Peak / Mountain
+
+Problems
+
+✅ LC 852
+
+✅ LC 162
+
+---
+
+## Pattern 5 ⭐⭐⭐
+
+Binary Search on Answer
+
+This is the hardest and most important.
+
+Search **answer**, not array.
+
+Example:
+
+```text
+Minimum eating speed
+
+Maximum minimum distance
+
+Minimum capacity
+
+Minimum days
+```
+
+Problems
+
+✅ LC 875 Koko Eating Bananas
+
+✅ LC 1011 Capacity To Ship Packages
+
+✅ LC 1283 Smallest Divisor Given Threshold
+
+---
+
+# Interview Checklist
+
+## Easy
+
+✅ LC 704
+
+✅ LC 35
+
+---
+
+## Medium
+
+✅ LC 34
+
+✅ LC 33
+
+✅ LC 162
+
+---
+
+## Binary Search on Answer
+
+✅ LC 875 ⭐⭐⭐
+
+✅ LC 1011 ⭐⭐⭐
+
+✅ LC 1283 ⭐⭐
+
+---
+
+# Final List
+
+1. LC 704 ⭐
+2. LC 35 ⭐
+3. LC 34 ⭐⭐
+4. LC 33 ⭐⭐
+5. LC 81 ⭐
+6. LC 852 ⭐
+7. LC 162 ⭐⭐
+8. LC 875 ⭐⭐⭐
+9. LC 1011 ⭐⭐⭐
+10. LC 1283 ⭐⭐
+
+---
+
+# Can you tick Binary Search after these?
+
+**Yes.**
+
+These 10 problems cover almost every Binary Search pattern asked in interviews:
+
+* Classic search ✅
+* First/last occurrence ✅
+* Lower/upper bound ✅
+* Rotated array ✅
+* Peak finding ✅
+* Binary search on answer ✅
+
+Once you finish these and can implement the template without looking it up, I'd mark:
+
+* ✅ Two Pointers
+* ✅ Sliding Window
+* ✅ Kadane's Algorithm
+* ✅ Prefix Sum
+* ✅ Binary Search
+
+At that point, your **Arrays topic is interview-ready**, and you should move on to the next DSA topic rather than continuing to solve more array problems.
+
+I think Binary Search is the **last major Array pattern** you should master.
+
+After this, your Arrays foundation will be very strong.
+
+---
+
+# Step 1: Binary Search Intuition
+
+Imagine a dictionary.
+
+Can you search a word by checking every page?
+
+Yes.
+
+Time:
+
+```text
+O(n)
+```
+
+Instead, you open the middle.
+
+If your word is:
+
+```text
+APPLE
+```
+
+and middle word is:
+
+```text
+MANGO
+```
+
+You know:
+
+```text
+APPLE < MANGO
+```
+
+So throw away the entire right half.
+
+Repeat.
+
+This is Binary Search.
+
+Every iteration removes **half** the search space.
+
+Time:
+
+```text
+O(log n)
+```
+
+---
+
+# Binary Search works only when
+
+The search space is **sorted** or **monotonic**.
+
+Example:
+
+```python
+[1,3,5,8,10,12]
+```
+
+Not:
+
+```python
+[8,2,10,4]
+```
+
+---
+
+# Template 1 (Most Important)
+
+```python
+left = 0
+right = len(nums)-1
+
+while left <= right:
+
+    mid = left + (right-left)//2
+
+    if nums[mid] == target:
+        return mid
+
+    elif nums[mid] < target:
+        left = mid + 1
+
+    else:
+        right = mid - 1
+
+return -1
+```
+
+Memorize this.
+
+---
+
+# Why
+
+```python
+mid = left + (right-left)//2
+```
+
+instead of
+
+```python
+(left+right)//2
+```
+
+Because in Java/C++:
+
+```text
+left+right
+```
+
+can overflow.
+
+Python doesn't overflow here, but interviewers still prefer the safer form.
+
+---
+
+# Binary Search Recognition
+
+Whenever you hear:
+
+```text
+Sorted
+```
+
+Think:
+
+```text
+Binary Search
+```
+
+---
+
+Whenever you hear:
+
+```text
+First occurrence
+Last occurrence
+Lower Bound
+Upper Bound
+```
+
+Think:
+
+```text
+Binary Search
+```
+
+---
+
+Whenever you hear:
+
+```text
+Minimum possible
+Maximum possible
+Smallest value satisfying condition
+```
+
+Think:
+
+```text
+Binary Search on Answer
+```
+
+---
+
+# Binary Search Patterns
+
+There are only **5**.
+
+---
+
+## Pattern 1
+
+Classic Binary Search
+
+Template above.
+
+Problems
+
+✅ LC 704
+
+---
+
+## Pattern 2
+
+Lower Bound / Upper Bound
+
+Idea
+
+Find
+
+```text
+First >= target
+```
+
+or
+
+```text
+First > target
+```
+
+Problems
+
+✅ LC 35 Search Insert Position
+
+✅ LC 34 First and Last Position
+
+---
+
+## Pattern 3
+
+Search in Rotated Array
+
+Problems
+
+✅ LC 33
+
+✅ LC 81
+
+---
+
+## Pattern 4
+
+Peak / Mountain
+
+Problems
+
+✅ LC 852
+
+✅ LC 162
+
+---
+
+## Pattern 5 ⭐⭐⭐
+
+Binary Search on Answer
+
+This is the hardest and most important.
+
+Search **answer**, not array.
+
+Example:
+
+```text
+Minimum eating speed
+
+Maximum minimum distance
+
+Minimum capacity
+
+Minimum days
+```
+
+Problems
+
+✅ LC 875 Koko Eating Bananas
+
+✅ LC 1011 Capacity To Ship Packages
+
+✅ LC 1283 Smallest Divisor Given Threshold
+
+---
+
+# Interview Checklist
+
+## Easy
+
+✅ LC 704
+
+✅ LC 35
+
+---
+
+## Medium
+
+✅ LC 34
+
+✅ LC 33
+
+✅ LC 162
+
+---
+
+## Binary Search on Answer
+
+✅ LC 875 ⭐⭐⭐
+
+✅ LC 1011 ⭐⭐⭐
+
+✅ LC 1283 ⭐⭐
+
+---
+
+# Final List
+
+1. LC 704 ⭐
+2. LC 35 ⭐
+3. LC 34 ⭐⭐
+4. LC 33 ⭐⭐
+5. LC 81 ⭐
+6. LC 852 ⭐
+7. LC 162 ⭐⭐
+8. LC 875 ⭐⭐⭐
+9. LC 1011 ⭐⭐⭐
+10. LC 1283 ⭐⭐
+
+---
+
+# Can you tick Binary Search after these?
+
+**Yes.**
+
+These 10 problems cover almost every Binary Search pattern asked in interviews:
+
+* Classic search ✅
+* First/last occurrence ✅
+* Lower/upper bound ✅
+* Rotated array ✅
+* Peak finding ✅
+* Binary search on answer ✅
+
+Once you finish these and can implement the template without looking it up, I'd mark:
+
+* ✅ Two Pointers
+* ✅ Sliding Window
+* ✅ Kadane's Algorithm
+* ✅ Prefix Sum
+* ✅ Binary Search
+
+At that point, your **Arrays topic is interview-ready**, and you should move on to the next DSA topic rather than continuing to solve more array problems.

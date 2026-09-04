@@ -47,3 +47,24 @@ for i in range(len(arr)):
 
 #print("Maximum Subarray:", arr[start:end+1])
 print("Maximum Sum:", max_sum)
+#Better
+#o(n^2), o(1)
+max_sum=0
+for i in range(0,len(arr)):
+    sum=0
+    for j in range(i,j<len(arr)):
+        sum+=arr[j]
+        max_sum=max(max_sum,sum)
+
+
+#Optimal
+class Solution:
+    def kadens(arr:list[int]):
+        m_sum=float('-inf')
+        sum=0
+        for i in range(0,len(arr)):
+            sum+=arr[i] 
+            m_sum=max(m_sum,sum)
+            if(sum<0):
+                sum=0
+        return m_sum               

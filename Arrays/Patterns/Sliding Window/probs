@@ -1,0 +1,219 @@
+Perfect. This is exactly how you should train: **template → map problem → solve**.
+I'll give you **problems grouped by the sliding window template**, just like you did for two pointers.
+
+Start from **easy → medium → hard pattern recognition**.
+
+---
+
+# 🧩 TEMPLATE 1 — Fixed Window
+
+### Core Template
+
+```python
+for right in range(len(nums)):
+    add(nums[right])
+
+    if right - left + 1 == k:
+        update_answer()
+
+        remove(nums[left])
+        left += 1
+```
+
+### 🧪 Problems to Practice
+
+**Level 1**
+
+1️⃣ Maximum Average Subarray I
+Find maximum average of subarray size `k`.
+
+2️⃣ Maximum Sum Subarray of Size K
+
+3️⃣ Subarray Product Less Than K *(slightly modified)*
+
+---
+
+# 🧩 TEMPLATE 2 — Longest Window (Shrink When Invalid)
+
+### Core Template
+
+```python
+left = 0
+for right in range(len(nums)):
+    add(nums[right])
+
+    while window_invalid():
+        remove(nums[left])
+        left += 1
+
+    result = max(result, right - left + 1)
+```
+
+### 🧪 Problems
+
+**Level 1**
+
+4️⃣ Longest Substring Without Repeating Characters
+
+5️⃣ Max Consecutive Ones III
+
+6️⃣ Longest Repeating Character Replacement
+
+---
+
+### Slightly harder
+
+7️⃣ Longest Substring with At Most K Distinct Characters
+
+8️⃣ Fruit Into Baskets
+
+These are **literally the same template**.
+
+---
+
+# 🧩 TEMPLATE 3 — Minimum Window (Shrink When Valid)
+
+### Core Template
+
+```python
+left = 0
+
+for right in range(len(nums)):
+    add(nums[right])
+
+    while window_valid():
+        update_min()
+
+        remove(nums[left])
+        left += 1
+```
+
+### 🧪 Problems
+
+**Level 1**
+
+9️⃣ Minimum Size Subarray Sum
+
+---
+
+**Classic Interview Question**
+
+🔟 Minimum Window Substring
+
+This one is **very famous FAANG problem**.
+
+---
+
+# 🧩 TEMPLATE 4 — Sliding Window + Frequency Map
+
+### Core Template
+
+```python
+freq = {}
+
+for right in range(len(s)):
+    freq[s[right]] += 1
+
+    while invalid():
+        freq[s[left]] -= 1
+        left += 1
+```
+
+### 🧪 Problems
+
+1️⃣1️⃣ Find All Anagrams in a String
+
+1️⃣2️⃣ Permutation in String
+
+---
+
+# 🧩 TEMPLATE 5 — At Most K Trick
+
+### Core Idea
+
+```
+exactly K = atMost(K) - atMost(K-1)
+```
+
+### Template
+
+```python
+count += right - left + 1
+```
+
+### 🧪 Problems
+
+1️⃣3️⃣ Subarrays with K Different Integers
+
+1️⃣4️⃣ Binary Subarrays With Sum
+
+These are **very strong interview problems**.
+
+---
+
+# 🧭 Best Learning Order (Very Important)
+
+Follow this exact order:
+
+### Phase 1 (Core intuition)
+
+1. LC 643
+2. LC 3
+3. LC 209
+
+---
+
+### Phase 2 (Standard patterns)
+
+4. LC 1004
+5. LC 424
+6. LC 904
+
+---
+
+### Phase 3 (String mastery)
+
+7. LC 438
+8. LC 567
+
+---
+
+### Phase 4 (Advanced sliding window)
+
+9. LC 76
+10. LC 992
+11. LC 930
+
+---
+
+# 🧠 Reality Check
+
+If you solve these **11 problems properly**, you will automatically solve **80–90 sliding window problems** in interviews.
+
+Because interviewers mostly rotate the same patterns.
+
+---
+
+# 🔥 Pro Tip (Your Template Thinking)
+
+Your approach:
+
+> “Remember template → reduce problem to template”
+
+This is exactly how **ICPC / FAANG-level candidates think**.
+
+Sliding window really has only **3 core skeletons**:
+
+```
+1️⃣ Fixed window
+2️⃣ Longest valid window
+3️⃣ Minimum valid window
+```
+
+Everything else is just **frequency maps or counting tricks**.
+
+---
+
+If you want, next I can also show you:
+
+**The 7 sliding window recognition tricks that instantly tell you a problem is sliding window** (this makes interviews much easier).

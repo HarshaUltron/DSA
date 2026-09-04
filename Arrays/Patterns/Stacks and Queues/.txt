@@ -1,0 +1,14 @@
+"In a prefix expression, the first operator is the root of the expression tree.
+Its operands/subexpressions come after it, 
+so when converting using a stack, 
+we scan from right to left so that those operands are processed before we encounter their operator."
+
+1. Strongest signal: "nearest" element
+
+If the question asks for something like:
+
+Next Greater Element
+Next Smaller Element
+Previous Greater Element
+Previous Smaller Element
+Nearest greater/smaller element

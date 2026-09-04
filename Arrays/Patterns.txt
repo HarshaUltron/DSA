@@ -1,0 +1,57 @@
+Core Patterns
+
+Two Pointers
+
+Sorted array problems (pairs, triplets)
+Remove duplicates, move zeros
+Reverse, palindrome validation
+Common: Container with Most Water, 3Sum, Trapping Rain Water
+Sliding Window
+
+Fixed/variable window size
+Longest/shortest substring/subarray
+Max/min in window
+Common: Longest Substring Without Repeating, Minimum Window Substring, Max Consecutive Ones
+Prefix/Cumulative
+
+Prefix sums, prefix products
+Range queries (sum, XOR)
+Common: Product of Array Except Self, Subarray Sum Equals K, Range Sum Query
+Binary Search
+
+Search in sorted/rotated arrays
+Find boundaries, peak elements
+Search range
+Common: Search in Rotated Sorted Array, Find First/Last Position, Peak Element
+
+Advanced Patterns
+Monotonic Stack
+
+Next/Previous Greater/Smaller Element
+Daily Temperatures, Trapping Rain Water
+Stock Span Problem
+
+Kadane's Algorithm
+
+Maximum subarray sum
+Maximum product subarray
+Variants with constraints
+Matrix Operations
+
+Spiral traversal, DFS/BFS
+
+Rotate matrix, Set Matrix Zeroes
+Island problems, Path problems
+Sorting & Quickselect
+
+Custom comparators
+
+Kth largest/smallest
+Merge intervals, meeting rooms
+
+Commonly Missed But Important
+
+Bitwise Operations - Single Number, Missing Number
+Counting/Hashing - Majority Element, Duplicate problems
+Array Rotation - Reverse algorithm, cyclic shifts
+Merge & Combine - Merge sorted arrays, intervals

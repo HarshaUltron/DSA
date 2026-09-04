@@ -1,0 +1,32 @@
+Sliding Window
+Two Pointer
+Prefix Sum
+Kaden's Algo
+Binary Search
+Basic Hashing
+
+
+
+Optional Array Patterns (learn later)
+
+🔹 Monotonic Stack (usually taught with Stacks)
+
+Next Greater Element
+Daily Temperatures
+
+🔹 Sorting-based Arrays
+
+Merge Intervals
+Meeting Rooms
+Sort Colors
+
+🔹 Matrix Arrays (2D Arrays)
+
+Spiral Matrix
+Set Matrix Zeroes
+Rotate Image
+
+🔹 Cyclic Sort
+
+First Missing Positive
+Find Missing Number

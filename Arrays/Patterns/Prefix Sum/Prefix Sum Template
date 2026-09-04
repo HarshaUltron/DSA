@@ -1,0 +1,1179 @@
+Perfect — your sliding window doc is **exactly how top candidates structure patterns**. We’ll build the **same level of mastery for Prefix Sum**.
+
+I’ll give you:
+
+✅ Core intuition
+✅ All major templates (like your doc)
+✅ Pattern recognition triggers
+✅ MAANG-level problems (handpicked, not random)
+✅ Brutally honest prep roadmap
+
+---
+
+# 🧠 Prefix Sum — The Core Idea
+
+Prefix sum converts **range queries → O(1)**.
+
+Instead of recomputing sums again and again:
+
+```
+Original:   [a, b, c, d, e]
+
+Prefix:     [a, a+b, a+b+c, a+b+c+d, ...]
+```
+
+👉 So any subarray sum becomes:
+
+```
+sum(l → r) = prefix[r] - prefix[l-1]
+```
+
+---
+
+## 🔑 Master Formula
+
+\text{sum}(l,r)=prefix[r]-prefix[l-1]
+
+---
+
+# 🧩 Prefix Sum Master Skeleton
+
+```python
+prefix = [0] * (n + 1)
+
+for i in range(n):
+    prefix[i + 1] = prefix[i] + nums[i]
+```
+
+👉 Why `n+1`?
+
+So we can handle:
+
+```
+sum(0 → r) = prefix[r+1] - prefix[0]
+```
+
+---
+
+# 🧠 Pattern 1 — Basic Range Sum Query
+
+### When to use:
+
+* Multiple subarray sum queries
+* Static array
+
+### Template
+
+```python
+prefix = [0] * (n + 1)
+
+for i in range(n):
+    prefix[i + 1] = prefix[i] + nums[i]
+
+def range_sum(l, r):
+    return prefix[r + 1] - prefix[l]
+```
+
+---
+
+### 🔥 Problem
+
+* Range Sum Query - Immutable
+
+---
+
+# 🧠 Pattern 2 — Subarray Sum Equals K (MOST IMPORTANT)
+
+This is **THE pattern**.
+
+### Idea
+
+Instead of checking all subarrays:
+
+```
+prefix[j] - prefix[i] = k
+```
+
+Rearrange:
+
+```
+prefix[j] - k = prefix[i]
+```
+
+👉 So we store prefix sums in a hashmap.
+
+---
+
+### Template
+
+```python
+from collections import defaultdict
+
+count = 0
+prefix = 0
+freq = defaultdict(int)
+freq[0] = 1
+
+for num in nums:
+    prefix += num
+
+    count += freq[prefix - k]
+
+    freq[prefix] += 1
+```
+
+---
+
+### 🔥 Problems
+
+* Subarray Sum Equals K ⭐ MUST
+* Binary Subarrays With Sum ⭐ (also sliding window alt)
+* Count Number of Nice Subarrays
+
+---
+
+# 🧠 Pattern 3 — Count Subarrays (0/1 or Balanced)
+
+Used when:
+
+👉 Equal 0s and 1s
+👉 Equal positives/negatives
+
+---
+
+### Trick
+
+Convert values:
+
+```
+0 → -1
+1 → +1
+```
+
+Then problem becomes:
+
+```
+Find subarray with sum = 0
+```
+
+---
+
+### Template
+
+```python
+prefix = 0
+freq = {0: 1}
+count = 0
+
+for num in nums:
+    prefix += (1 if num == 1 else -1)
+
+    count += freq.get(prefix, 0)
+
+    freq[prefix] = freq.get(prefix, 0) + 1
+```
+
+---
+
+### 🔥 Problems
+
+* Contiguous Array ⭐ MUST
+* Longest Well-Performing Interval
+
+---
+
+# 🧠 Pattern 4 — Longest Subarray with Sum K
+
+Difference from Pattern 2:
+
+👉 We maximize length instead of count
+
+---
+
+### Template
+
+```python
+prefix = 0
+first_seen = {}
+max_len = 0
+
+for i, num in enumerate(nums):
+    prefix += num
+
+    if prefix == k:
+        max_len = i + 1
+
+    if prefix - k in first_seen:
+        max_len = max(max_len, i - first_seen[prefix - k])
+
+    if prefix not in first_seen:
+        first_seen[prefix] = i
+```
+
+---
+
+### 🔥 Problems
+
+* Maximum Size Subarray Sum Equals k
+* Longest Subarray with Sum K
+
+---
+
+# 🧠 Pattern 5 — Prefix Sum + Modulo (Advanced MAANG Favorite)
+
+Used when:
+
+👉 “Sum divisible by K”
+
+---
+
+### Key Insight
+
+```
+(prefix[j] - prefix[i]) % k = 0
+```
+
+Means:
+
+```
+prefix[j] % k == prefix[i] % k
+```
+
+---
+
+### Template
+
+```python
+prefix = 0
+freq = {0: 1}
+count = 0
+
+for num in nums:
+    prefix += num
+    mod = prefix % k
+
+    if mod < 0:
+        mod += k
+
+    count += freq.get(mod, 0)
+    freq[mod] = freq.get(mod, 0) + 1
+```
+
+---
+
+### 🔥 Problems
+
+* Subarray Sums Divisible by K ⭐ MUST
+* Continuous Subarray Sum
+
+---
+
+# 🧠 Pattern 6 — 2D Prefix Sum (Matrix)
+
+Used when:
+
+👉 Sum of submatrix queries
+
+---
+
+### Formula
+
+\text{sum}(r1,c1,r2,c2)=P[r2][c2]-P[r1-1][c2]-P[r2][c1-1]+P[r1-1][c1-1]
+
+---
+
+### 🔥 Problems
+
+* Range Sum Query 2D - Immutable
+* Number of Submatrices That Sum to Target (HARD)
+
+---
+
+# 🧭 Prefix Sum Recognition Triggers
+
+When you see:
+
+```
+subarray sum
+count subarrays
+sum = k
+equal number of X and Y
+divisible by k
+range sum queries
+```
+
+👉 Immediately think:
+
+```
+Prefix Sum + HashMap
+```
+
+---
+
+# ⚔️ Sliding Window vs Prefix Sum (Important)
+
+From your doc :
+
+| Problem Type               | Use This        |
+| -------------------------- | --------------- |
+| Contiguous + constraints   | Sliding Window  |
+| Sum / count / exact values | Prefix Sum      |
+| Negative numbers present   | Prefix Sum ONLY |
+| Exact K count problems     | Prefix Sum      |
+
+👉 Brutal truth:
+
+```
+If negatives exist → Sliding Window FAILS → Prefix Sum wins
+```
+
+---
+
+# 🔥 MAANG Interview Problem Set (No Fluff)
+
+If you solve these, you're **interview ready**:
+
+### Tier 1 (Must Solve)
+
+* Subarray Sum Equals K
+* Contiguous Array
+* Subarray Sums Divisible by K
+
+---
+
+### Tier 2 (Strong Level)
+
+* Binary Subarrays With Sum
+* Maximum Size Subarray Sum Equals k
+
+---
+
+### Tier 3 (Advanced)
+
+* Number of Submatrices That Sum to Target
+
+---
+
+# 🧠 The 90% Cheat Sheet
+
+Just remember these:
+
+### Template 1 — Count subarrays
+
+```
+prefix
+hashmap
+count += freq[prefix - k]
+```
+
+---
+
+### Template 2 — Longest subarray
+
+```
+store first occurrence
+maximize length
+```
+
+---
+
+### Template 3 — Modulo trick
+
+```
+same remainder → valid subarray
+```
+
+---
+
+# ⚠️ Brutal Reality (Interview Insight)
+
+```
+Prefix Sum ≈ 20–25% of coding interviews
+```
+
+But:
+
+👉 If you MASTER just 3 templates → you solve almost all
+
+---
+
+# 🚀 What You Should Do Next
+
+Since your roadmap is already structured:
+
+👉 Spend **3–4 days max** on prefix sum:
+
+Day 1:
+
+* Basic + Subarray Sum K
+
+Day 2:
+
+* Contiguous Array + Divisible by K
+
+Day 3:
+
+* Longest subarray + revision
+
+Day 4:
+
+* 1–2 hard problems
+
+---
+
+If you want next level:
+
+👉 I can combine **Sliding Window + Prefix Sum decision tree**
+
+This is what actually separates average vs MAANG-level candidates.
+
+
+Good — this is where most people level up fast.
+
+I’m going to give you a **decision system** (not theory).
+In interviews, you don’t “guess the pattern” — you **classify the problem in seconds**.
+
+---
+
+# 🧠 Sliding Window vs Prefix Sum — Decision Tree
+
+## ⚡ Step 1: Check for THIS keyword first
+
+### 👉 “Contiguous”
+
+If YES → both are possible
+Now go deeper 👇
+
+---
+
+# 🔍 Step 2: Check the GOAL
+
+## Case A — “Longest / Shortest / Max Length”
+
+👉 Example words:
+
+```
+longest
+maximum length
+minimum window
+```
+
+### ✅ Use → **Sliding Window**
+
+**Why?**
+Because you're dynamically expanding/shrinking window.
+
+---
+
+## Case B — “Count subarrays” OR “Exact sum = K”
+
+👉 Example:
+
+```
+count subarrays
+number of subarrays
+sum = k
+exactly k
+```
+
+### ✅ Use → **Prefix Sum + HashMap**
+
+**Why?**
+Sliding window cannot count all possibilities.
+
+---
+
+# 🔥 Step 3: MOST IMPORTANT CHECK
+
+## ❗ Are NEGATIVE numbers present?
+
+### ✅ YES → Use Prefix Sum
+
+### ❌ NO → Sliding Window possible
+
+---
+
+### 💣 This is a HARD RULE:
+
+```
+Sliding window FAILS with negative numbers
+```
+
+Example:
+
+```
+[2, -1, 2]
+```
+
+Window logic breaks because sum is not monotonic.
+
+---
+
+# 🧠 Step 4: “At Most / At Least / Exactly K”
+
+## Case A — “At most K”
+
+👉 Use:
+
+### ✅ Sliding Window
+
+---
+
+## Case B — “Exactly K”
+
+👉 Trick:
+
+```
+exactly(k) = atMost(k) - atMost(k-1)
+```
+
+### ✅ Sliding Window OR Prefix Sum (both possible)
+
+---
+
+# 🧠 Step 5: “Divisible by K”
+
+👉 Example:
+
+```
+sum divisible by k
+```
+
+### ✅ Always → Prefix Sum + Modulo
+
+---
+
+# 🧠 Step 6: “Equal counts”
+
+👉 Example:
+
+```
+equal 0s and 1s
+equal vowels and consonants
+balanced
+```
+
+### ✅ Prefix Sum (convert to +1 / -1)
+
+---
+
+# ⚔️ Final Decision Table (INTERVIEW GOLD)
+
+| Problem Type                | Technique       |
+| --------------------------- | --------------- |
+| Longest / shortest subarray | Sliding Window  |
+| Count subarrays             | Prefix Sum      |
+| Exact sum = K               | Prefix Sum      |
+| At most K                   | Sliding Window  |
+| Exactly K                   | Both (trick)    |
+| Negative numbers present    | Prefix Sum ONLY |
+| Divisible by K              | Prefix Sum      |
+| Equal counts (0/1, etc.)    | Prefix Sum      |
+
+---
+
+# 🧠 Real Interview Thinking (How Top Candidates Think)
+
+### Question:
+
+> “Count subarrays with sum = K”
+
+Your brain should instantly go:
+
+```
+count → prefix sum
+exact value → hashmap
+```
+
+---
+
+### Question:
+
+> “Longest substring with at most K distinct characters”
+
+Your brain:
+
+```
+longest → sliding window
+constraint → shrink window
+```
+
+---
+
+### Question:
+
+> “Subarrays divisible by K”
+
+Your brain:
+
+```
+modulo → prefix sum
+```
+
+---
+
+# 🧪 Quick Practice (Test Yourself)
+
+Try classifying:
+
+---
+
+### 1️⃣
+
+**Longest subarray with sum ≤ K**
+
+👉 Answer:
+✔ Sliding Window
+
+---
+
+### 2️⃣
+
+**Count subarrays with sum = K**
+
+👉 Answer:
+✔ Prefix Sum
+
+---
+
+### 3️⃣
+
+**Subarray sum divisible by K**
+
+👉 Answer:
+✔ Prefix Sum (modulo)
+
+---
+
+### 4️⃣
+
+**Longest subarray with equal 0s and 1s**
+
+👉 Answer:
+✔ Prefix Sum
+
+---
+
+### 5️⃣
+
+**Minimum window substring**
+
+👉 Answer:
+✔ Sliding Window
+
+---
+
+# 🚨 Brutal Truth (Important)
+
+Most people fail because:
+
+❌ They memorize patterns
+❌ They don’t classify problems
+
+Top candidates:
+
+✔ Identify pattern in < 30 seconds
+✔ Apply template immediately
+
+---
+
+# 🧠 Final Mental Shortcut
+
+If you're confused, ask:
+
+```
+Am I tracking WINDOW behavior?
+→ Sliding Window
+
+Am I tracking SUM relationships?
+→ Prefix Sum
+```
+
+---
+
+# 🚀 If You Want Next Level
+
+I can give you:
+
+👉 A **combined problem set (Sliding + Prefix mixed)**
+👉 Exactly how MAANG interviewers twist these patterns
+👉 And how to solve them under pressure
+
+Just say: **“give mixed set”** and I’ll push you to the next level.
+
+Good — this is where most people level up fast.
+
+I’m going to give you a **decision system** (not theory).
+In interviews, you don’t “guess the pattern” — you **classify the problem in seconds**.
+
+---
+
+# 🧠 Sliding Window vs Prefix Sum — Decision Tree
+
+## ⚡ Step 1: Check for THIS keyword first
+
+### 👉 “Contiguous”
+
+If YES → both are possible
+Now go deeper 👇
+
+---
+
+# 🔍 Step 2: Check the GOAL
+
+## Case A — “Longest / Shortest / Max Length”
+
+👉 Example words:
+
+```
+longest
+maximum length
+minimum window
+```
+
+### ✅ Use → **Sliding Window**
+
+**Why?**
+Because you're dynamically expanding/shrinking window.
+
+---
+
+## Case B — “Count subarrays” OR “Exact sum = K”
+
+👉 Example:
+
+```
+count subarrays
+number of subarrays
+sum = k
+exactly k
+```
+
+### ✅ Use → **Prefix Sum + HashMap**
+
+**Why?**
+Sliding window cannot count all possibilities.
+
+---
+
+# 🔥 Step 3: MOST IMPORTANT CHECK
+
+## ❗ Are NEGATIVE numbers present?
+
+### ✅ YES → Use Prefix Sum
+
+### ❌ NO → Sliding Window possible
+
+---
+
+### 💣 This is a HARD RULE:
+
+```
+Sliding window FAILS with negative numbers
+```
+
+Example:
+
+```
+[2, -1, 2]
+```
+
+Window logic breaks because sum is not monotonic.
+
+---
+
+# 🧠 Step 4: “At Most / At Least / Exactly K”
+
+## Case A — “At most K”
+
+👉 Use:
+
+### ✅ Sliding Window
+
+---
+
+## Case B — “Exactly K”
+
+👉 Trick:
+
+```
+exactly(k) = atMost(k) - atMost(k-1)
+```
+
+### ✅ Sliding Window OR Prefix Sum (both possible)
+
+---
+
+# 🧠 Step 5: “Divisible by K”
+
+👉 Example:
+
+```
+sum divisible by k
+```
+
+### ✅ Always → Prefix Sum + Modulo
+
+---
+
+# 🧠 Step 6: “Equal counts”
+
+👉 Example:
+
+```
+equal 0s and 1s
+equal vowels and consonants
+balanced
+```
+
+### ✅ Prefix Sum (convert to +1 / -1)
+
+---
+
+# ⚔️ Final Decision Table (INTERVIEW GOLD)
+
+| Problem Type                | Technique       |
+| --------------------------- | --------------- |
+| Longest / shortest subarray | Sliding Window  |
+| Count subarrays             | Prefix Sum      |
+| Exact sum = K               | Prefix Sum      |
+| At most K                   | Sliding Window  |
+| Exactly K                   | Both (trick)    |
+| Negative numbers present    | Prefix Sum ONLY |
+| Divisible by K              | Prefix Sum      |
+| Equal counts (0/1, etc.)    | Prefix Sum      |
+
+---
+
+# 🧠 Real Interview Thinking (How Top Candidates Think)
+
+### Question:
+
+> “Count subarrays with sum = K”
+
+Your brain should instantly go:
+
+```
+count → prefix sum
+exact value → hashmap
+```
+
+---
+
+### Question:
+
+> “Longest substring with at most K distinct characters”
+
+Your brain:
+
+```
+longest → sliding window
+constraint → shrink window
+```
+
+---
+
+### Question:
+
+> “Subarrays divisible by K”
+
+Your brain:
+
+```
+modulo → prefix sum
+```
+
+---
+
+# 🧪 Quick Practice (Test Yourself)
+
+Try classifying:
+
+---
+
+### 1️⃣
+
+**Longest subarray with sum ≤ K**
+
+👉 Answer:
+✔ Sliding Window
+
+---
+
+### 2️⃣
+
+**Count subarrays with sum = K**
+
+👉 Answer:
+✔ Prefix Sum
+
+---
+
+### 3️⃣
+
+**Subarray sum divisible by K**
+
+👉 Answer:
+✔ Prefix Sum (modulo)
+
+---
+
+### 4️⃣
+
+**Longest subarray with equal 0s and 1s**
+
+👉 Answer:
+✔ Prefix Sum
+
+---
+
+### 5️⃣
+
+**Minimum window substring**
+
+👉 Answer:
+✔ Sliding Window
+
+---
+
+# 🚨 Brutal Truth (Important)
+
+Most people fail because:
+
+❌ They memorize patterns
+❌ They don’t classify problems
+
+Top candidates:
+
+✔ Identify pattern in < 30 seconds
+✔ Apply template immediately
+
+---
+
+# 🧠 Final Mental Shortcut
+
+If you're confused, ask:
+
+```
+Am I tracking WINDOW behavior?
+→ Sliding Window
+
+Am I tracking SUM relationships?
+→ Prefix Sum
+```
+
+---
+
+# 🚀 If You Want Next Level
+
+I can give you:
+
+👉 A **combined problem set (Sliding + Prefix mixed)**
+👉 Exactly how MAANG interviewers twist these patterns
+👉 And how to solve them under pressure
+
+Just say: **“give mixed set”** and I’ll push you to the next level.
+
+
+For interviews, don't learn 20 Prefix Sum templates.
+
+Learn **3 templates** and solve **6 problems**.
+
+After that, mark:
+
+**Prefix Sum ✅ Completed**
+
+---
+
+# Template 1: Basic Prefix Sum
+
+Used for:
+
+* Range Sum Query
+* Pivot Index
+* Running Sum
+
+```python
+prefix = [0] * (len(nums) + 1)
+
+for i in range(len(nums)):
+    prefix[i + 1] = prefix[i] + nums[i]
+
+# sum(l,r)
+subarray_sum = prefix[r + 1] - prefix[l]
+```
+
+### Problems
+
+1. LC 1480 - Running Sum of 1D Array
+2. LC 303 - Range Sum Query Immutable
+3. LC 724 - Find Pivot Index
+
+---
+
+# Template 2: Count Subarrays With Sum K
+
+This is the most important one.
+
+```python
+from collections import defaultdict
+
+prefix = 0
+count = 0
+
+freq = defaultdict(int)
+freq[0] = 1
+
+for num in nums:
+    prefix += num
+
+    count += freq[prefix - k]
+
+    freq[prefix] += 1
+
+return count
+```
+
+### Intuition
+
+Current prefix:
+
+```python
+prefix = 15
+```
+
+Need:
+
+```python
+sum = k = 5
+```
+
+Ask:
+
+```python
+15 - 5 = 10
+```
+
+Have we seen prefix sum 10 before?
+
+If yes:
+
+```python
+15 - 10 = 5
+```
+
+Valid subarray found.
+
+---
+
+### Problems
+
+4. LC 560 - Subarray Sum Equals K ⭐⭐⭐
+5. LC 930 - Binary Subarrays With Sum (solve again using Prefix Sum)
+
+---
+
+# Template 3: Modulo Prefix Sum
+
+Used for:
+
+```text
+divisible by k
+```
+
+```python
+prefix = 0
+count = 0
+
+freq = {0: 1}
+
+for num in nums:
+    prefix += num
+
+    mod = prefix % k
+
+    count += freq.get(mod, 0)
+
+    freq[mod] = freq.get(mod, 0) + 1
+
+return count
+```
+
+### Intuition
+
+If:
+
+```python
+prefix1 % k == prefix2 % k
+```
+
+Then:
+
+```python
+(prefix2 - prefix1) % k == 0
+```
+
+Therefore subarray sum is divisible by k.
+
+---
+
+### Problems
+
+6. LC 974 - Subarray Sums Divisible by K ⭐⭐⭐
+
+---
+
+# Bonus Pattern (Must Know)
+
+Equal 0s and 1s
+
+Convert:
+
+```python
+0 -> -1
+1 -> +1
+```
+
+Then find:
+
+```python
+longest subarray with sum = 0
+```
+
+### Problem
+
+7. LC 525 - Contiguous Array ⭐⭐⭐
+
+---
+
+# Prefix Sum Completion Checklist
+
+If you can solve from scratch:
+
+✅ LC 724
+✅ LC 560
+✅ LC 974
+✅ LC 525
+LC 303
+LC 1480
+LC 930
+and understand:
+
+✅ Basic Prefix Sum
+✅ Prefix Sum + HashMap
+✅ Prefix Sum + Modulo
+
+then for your current product-company preparation level, I'd confidently mark:
+
+**Prefix Sum ✅ Interview Ready**
+
+My recommended order:
+
+1. LC 724 (easy warmup)
+2. LC 560 (most important)
+3. LC 525
+4. LC 974
+5. LC 930 (Prefix Sum version)
+6. Revision
+
+After that, move immediately to **Binary Search**. Don't spend more than 3–4 days on Prefix Sum.
